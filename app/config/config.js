@@ -8,7 +8,7 @@
  * Development environment
  */
 const PORT = "7000";
-const DATABASE = "tyke";
+const DATABASE = "poc";
 const MONGODB_URL = `mongodb+srv://shayamthomas:letmein123@loree-76xnb.mongodb.net/${DATABASE}?retryWrites=true&w=majority`;
 
 
