@@ -81,7 +81,7 @@ const AddTodo = mutationWithClientMutationId(
 		description: "Add new todo",
 		inputFields: AddTodoInput,
 		outputFields: {
-			article: {
+			todo: {
 				type: TodoEdge,
 				resolve: (payload) => {
 					return new Promise((resolve, reject) => {

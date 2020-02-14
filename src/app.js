@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 // Views
 import HomeView from "./views/home/home.view";
 
-function App() {
-  return (
-    <HomeView />
-  );
+class App extends Component{
+	render() {
+		return (
+			<HomeView/>
+		);
+	}
 }
 
 export default App;
