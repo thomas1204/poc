@@ -4,12 +4,12 @@ const {GraphQLObjectType} = require('graphql');
 const {nodeField} = require('../app/type/type');
 
 //  CONTROLLER
-const ArticleController = require('./controller/article.controller');
+const TodoController = require('./controller/todo.controller');
 
 const Queries = new GraphQLObjectType({
 	name: "RootQuery",
 	fields: () => ({
-		articles: ArticleController.ArticleList,
+		todos: TodoController.TodoList,
 		node: nodeField
 	})
 });

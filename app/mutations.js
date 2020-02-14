@@ -1,12 +1,12 @@
 const {GraphQLObjectType} = require('graphql');
 
 //  CONTROLLER
-const ArticleController = require('./controller/article.controller');
+const TodoController = require('./controller/todo.controller');
 
 const Mutations = new GraphQLObjectType({
 	name: "RootMutation",
 	fields: () => ({
-		addArticle: ArticleController.AddArticle
+		addTodo: TodoController.AddTodo
 	})
 });
 

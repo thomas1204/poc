@@ -15,23 +15,21 @@ const {
 } = require('graphql-relay');
 
 // Type
-const {ArticleType} = require('../type/type');
+const {TodoType} = require('../type/type');
 
 // Input
 const {
-	AddArticleInput
-} = require('../input/artcile.inputs');
+	AddTodoInput
+} = require('../input/todo.inputs');
 
-// Helper
-const {GenerateSlug} = require('../../helper/utils.helper');
 
 
 const {
-	connectionType: ArticleConnection,
-	edgeType: ArticleEdge
+	connectionType: TodoConnection,
+	edgeType: TodoEdge
 } = connectionDefinitions({
-	name: COLLECTIONS.ARTICLES,
-	nodeType: ArticleType
+	name: COLLECTIONS.TODOS,
+	nodeType: TodoType
 });
 
 /**
@@ -39,17 +37,17 @@ const {
  * @argument searchByTitle - Get article by its title
  * @argument status - Get article by its status
  */
-const ArticleList = {
-	name: "articleList",
-	description: "Fetches list of articles",
-	type: ArticleConnection,
+const TodoList = {
+	name: "Todo List",
+	description: "Fetches list of todos",
+	type: TodoConnection,
 	args: {
 		searchByTitle: {
-			description: "Filter article by its title",
+			description: "Filter todo by its title",
 			type: GraphQLString
 		},
-		status: {
-			description: "Filter article by its status",
+		done: {
+			description: "Filter todo by its status",
 			type: GraphQLBoolean
 		},
 		...connectionArgs
@@ -58,12 +56,12 @@ const ArticleList = {
 		return connectionFromPromisedArray(
 			new Promise((resolve, reject) => {
 				let cond = {};
-				if (args.status !== undefined) cond['status'] = args.status;
+				if (args.done !== undefined) cond['done'] = args.done;
 				if (args.searchByTitle !== undefined) cond['title'] = {
 					"$regex": `^${args.searchByTitle}`,
 					$options: 'i'
 				};
-				DB.GET(COLLECTIONS.ARTICLES, cond, (err, docs) => {
+				DB.GET(COLLECTIONS.TODOS, cond, (err, docs) => {
 					if (err) {
 						reject(err)
 					} else {
@@ -77,24 +75,24 @@ const ArticleList = {
 };
 
 
-const AddArticle = mutationWithClientMutationId(
+const AddTodo = mutationWithClientMutationId(
 	{
-		name: "AddArticle",
-		description: "Upload a article",
-		inputFields: AddArticleInput,
+		name: "AddTodo",
+		description: "Add new todo",
+		inputFields: AddTodoInput,
 		outputFields: {
 			article: {
-				type: ArticleEdge,
+				type: TodoEdge,
 				resolve: (payload) => {
 					return new Promise((resolve, reject) => {
-						DB.COUNT(COLLECTIONS.ARTICLES, {}, (err, count) => {
+						DB.COUNT(COLLECTIONS.TODOS, {}, (err, count) => {
 							if (err) {
 								reject(err)
 							} else {
-								const article = HandlePayload(payload);
+								const todo = HandlePayload(payload);
 								resolve({
 									cursor: offsetToCursor(count - 1),
-									node: article
+									node: todo
 								});
 							}
 						});
@@ -102,10 +100,9 @@ const AddArticle = mutationWithClientMutationId(
 				}
 			}
 		},
-		mutateAndGetPayload: (article) => {
-			article['slug'] = GenerateSlug(article.title);
+		mutateAndGetPayload: (todo) => {
 			return new Promise((resolve, reject) => {
-				DB.INSERT(COLLECTIONS.ARTICLES, article, (err, doc) => {
+				DB.INSERT(COLLECTIONS.TODOS, todo, (err, doc) => {
 					if (err) {
 						reject(err)
 					} else {
@@ -123,19 +120,12 @@ function HandlePayload(payload) {
 	return {
 		_id: payload._id,
 		title: payload.title,
-		slug: payload.slug,
-		tags: payload.tags,
-		image: payload.image,
-		banner: payload.banner,
-		description: payload.description,
-		content: payload.content,
-		status: payload.status,
-		deleted: payload.deleted
+		done: payload.done
 	}
 }
 
 
 module.exports = {
-	ArticleList,
-	AddArticle
+	TodoList,
+	AddTodo
 };
