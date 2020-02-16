@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {graphql, QueryRenderer} from 'react-relay';
 import RelayEnvironment from "../../relay.environment";
 import TodoComponent from "./TodoComponent";
+import LoaderComponent from './LoaderComponent';
 
 class TodoList extends Component {
 	render() {
@@ -27,7 +28,7 @@ class TodoList extends Component {
 						return <div>Error!</div>;
 					}
 					if (!props) {
-						return <div>Loading...</div>;
+						return <LoaderComponent />;
 					}
 					return (
 						<div className="todoListWrapper">
