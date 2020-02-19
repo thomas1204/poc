@@ -14,6 +14,17 @@ type AddTodoPayload {
   clientMutationId: String
 }
 
+input ChangeTodoDoneStatusInput {
+  id: String!
+  done: Boolean!
+  clientMutationId: String
+}
+
+type ChangeTodoDoneStatusPayload {
+  todo: Todo
+  clientMutationId: String
+}
+
 """An object with an ID"""
 interface Node {
   """The id of the object."""
@@ -38,6 +49,9 @@ type PageInfo {
 type RootMutation {
   """Add new todo"""
   addTodo(input: AddTodoInput!): AddTodoPayload
+
+  """Change status of todo"""
+  changeTodoDoneStatus(input: ChangeTodoDoneStatusInput!): ChangeTodoDoneStatusPayload
 }
 
 type RootQuery {

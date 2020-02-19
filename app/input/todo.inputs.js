@@ -10,7 +10,7 @@ const AddTodoInput = {
 	done: {type: GraphQLBoolean, defaultValue: true}
 };
 
-const ChangeTodoStatusInput = {
+const ChangeTodoDoneStatusInput = {
 	id: {type: new GraphQLNonNull(GraphQLString)},
 	done: {type: new GraphQLNonNull(GraphQLBoolean)},
 };
@@ -19,5 +19,5 @@ const ChangeTodoStatusInput = {
 
 module.exports = {
 	AddTodoInput,
-	ChangeTodoStatusInput
+	ChangeTodoDoneStatusInput
 };

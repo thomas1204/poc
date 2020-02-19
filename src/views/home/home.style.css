@@ -50,3 +50,30 @@ html, body {
 	color: #484848;
 	font-size: 20px;
 }
+
+#addTodoModal .modal-content {
+	padding: 10px;
+}
+
+#addTodoModal .modal-content .closeButtonSection {
+	display: flex;
+	padding: 5px;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+#addTodoModal .modal-content .closeButtonSection button {
+	color: #484848;
+	font-size: 20px;
+	background-color: #ffffff;
+	border: 0;
+	outline: none;
+}
+
+#addTodoModal .modal-content .addInputSection {
+	padding: 5px;
+}
+
+#addTodoModal .modal-content .addInputSection input {
+	margin-bottom: 15px;
+}

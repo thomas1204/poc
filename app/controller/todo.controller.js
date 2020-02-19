@@ -1,3 +1,4 @@
+const ObjectID = require('mongodb').ObjectID;
 const COLLECTIONS = require('../model/collections');
 const DB = require('../model/db');
 
@@ -7,6 +8,7 @@ const {
 } = require('graphql');
 
 const {
+	fromGlobalId,
 	connectionArgs,
 	connectionDefinitions,
 	connectionFromPromisedArray,
@@ -19,9 +21,9 @@ const {TodoType} = require('../type/type');
 
 // Input
 const {
-	AddTodoInput
+	AddTodoInput,
+	ChangeTodoDoneStatusInput
 } = require('../input/todo.inputs');
-
 
 
 const {
@@ -106,13 +108,39 @@ const AddTodo = mutationWithClientMutationId(
 					if (err) {
 						reject(err)
 					} else {
-						resolve(doc.ops[0])
+						resolve(doc)
 					}
 				})
 			})
 		}
 	}
 );
+
+
+const ChangeTodoDoneStatus = mutationWithClientMutationId({
+	name: "ChangeTodoDoneStatus",
+	description: "Change status of todo",
+	inputFields: ChangeTodoDoneStatusInput,
+	outputFields: {
+		todo: {
+			type: TodoType,
+			resolve: (payload) => HandlePayload(payload)
+		}
+	},
+	mutateAndGetPayload: (todo) => {
+		console.log('todo', todo);
+		return new Promise((resolve, reject) => {
+			const _id = fromGlobalId(todo.id).id;
+			DB.UPDATE(COLLECTIONS.TODOS, {_id: ObjectID(_id)}, {$set: {done: todo.done}}, (err, doc) => {
+				if (err) {
+					reject(err)
+				} else {
+					resolve(doc)
+				}
+			})
+		})
+	}
+});
 
 
 // Payload object
@@ -127,5 +155,6 @@ function HandlePayload(payload) {
 
 module.exports = {
 	TodoList,
-	AddTodo
+	AddTodo,
+	ChangeTodoDoneStatus
 };

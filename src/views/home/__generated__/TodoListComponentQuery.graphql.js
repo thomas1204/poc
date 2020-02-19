@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 69d012dcb315264057f51eb67ae0b9be
+ * @relayHash 504d1c260a8fef49cf9ccaa5479cf06f
  */
 
 /* eslint-disable */
@@ -10,7 +10,9 @@
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
 type TodoComponent_todo$ref = any;
-export type TodoListComponentQueryVariables = {||};
+export type TodoListComponentQueryVariables = {|
+  searchText?: ?string
+|};
 export type TodoListComponentQueryResponse = {|
   +todos: ?{|
     +edges: ?$ReadOnlyArray<?{|
@@ -29,8 +31,10 @@ export type TodoListComponentQuery = {|
 
 
 /*
-query TodoListComponentQuery {
-  todos {
+query TodoListComponentQuery(
+  $searchText: String
+) {
+  todos(searchByTitle: $searchText) {
     edges {
       node {
         id
@@ -48,7 +52,22 @@ fragment TodoComponent_todo on Todo {
 */
 
 const node/*: ConcreteRequest*/ = (function(){
-var v0 = {
+var v0 = [
+  {
+    "kind": "LocalArgument",
+    "name": "searchText",
+    "type": "String",
+    "defaultValue": null
+  }
+],
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "searchByTitle",
+    "variableName": "searchText"
+  }
+],
+v2 = {
   "kind": "ScalarField",
   "alias": null,
   "name": "id",
@@ -62,14 +81,14 @@ return {
     "name": "TodoListComponentQuery",
     "type": "RootQuery",
     "metadata": null,
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "selections": [
       {
         "kind": "LinkedField",
         "alias": null,
         "name": "todos",
         "storageKey": null,
-        "args": null,
+        "args": (v1/*: any*/),
         "concreteType": "todosConnection",
         "plural": false,
         "selections": [
@@ -91,7 +110,7 @@ return {
                 "concreteType": "Todo",
                 "plural": false,
                 "selections": [
-                  (v0/*: any*/),
+                  (v2/*: any*/),
                   {
                     "kind": "FragmentSpread",
                     "name": "TodoComponent_todo",
@@ -108,14 +127,14 @@ return {
   "operation": {
     "kind": "Operation",
     "name": "TodoListComponentQuery",
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "selections": [
       {
         "kind": "LinkedField",
         "alias": null,
         "name": "todos",
         "storageKey": null,
-        "args": null,
+        "args": (v1/*: any*/),
         "concreteType": "todosConnection",
         "plural": false,
         "selections": [
@@ -137,7 +156,7 @@ return {
                 "concreteType": "Todo",
                 "plural": false,
                 "selections": [
-                  (v0/*: any*/),
+                  (v2/*: any*/),
                   {
                     "kind": "ScalarField",
                     "alias": null,
@@ -164,12 +183,12 @@ return {
     "operationKind": "query",
     "name": "TodoListComponentQuery",
     "id": null,
-    "text": "query TodoListComponentQuery {\n  todos {\n    edges {\n      node {\n        id\n        ...TodoComponent_todo\n      }\n    }\n  }\n}\n\nfragment TodoComponent_todo on Todo {\n  id\n  title\n  done\n}\n",
+    "text": "query TodoListComponentQuery(\n  $searchText: String\n) {\n  todos(searchByTitle: $searchText) {\n    edges {\n      node {\n        id\n        ...TodoComponent_todo\n      }\n    }\n  }\n}\n\nfragment TodoComponent_todo on Todo {\n  id\n  title\n  done\n}\n",
     "metadata": {}
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '1e3af24cbdc015184f9afd9a5c9f9e87';
+(node/*: any*/).hash = '1a357e583f68ef9ab952c4244422254c';
 
 module.exports = node;

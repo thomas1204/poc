@@ -3,16 +3,29 @@ import React, {Component} from 'react';
 import {graphql, QueryRenderer} from 'react-relay';
 import RelayEnvironment from "../../relay.environment";
 import TodoComponent from "./TodoComponent";
+import AddTodoComponent from './AddTodoComponent';
 import LoaderComponent from './LoaderComponent';
 
 class TodoList extends Component {
+	
+	state = {
+		searchText: ""
+	};
+	
+	handleSearch = (e) => {
+		this.setState({
+			searchText: e.target.value
+		})
+	};
+	
 	render() {
+		const {searchText} = this.state;
 		return (
 			<QueryRenderer
 				environment={RelayEnvironment}
 				query={graphql`
-          query TodoListComponentQuery {
-            todos{
+          query TodoListComponentQuery($searchText: String) {
+            todos (searchByTitle: $searchText) {
 					    edges{
 					      node{
 					        id
@@ -22,41 +35,45 @@ class TodoList extends Component {
 					  }
           }
         `}
-				variables={{}}
+				variables={{searchText}}
 				render={({error, props}) => {
 					if (error) {
 						return <div>Error!</div>;
 					}
 					if (!props) {
-						return <LoaderComponent />;
+						return <LoaderComponent/>;
 					}
 					return (
 						<div className="todoListWrapper">
 							<div className="row">
+								
 								<div className="col-8">
 									<input
-										type="text"
+										type="hidden"
 										className="form-control searchField"
 										placeholder="Search"
+										onChange={(e) => this.handleSearch(e)}
 									/>
 								</div>
-								<div className="col-4">
-									<button type="button" className="btn btn-dark btn-block">
-										Add todo
-									</button>
-								</div>
+								
+								{/* Add todo component*/}
+								<AddTodoComponent />
+							
 							</div>
 							
+							{/* Todo lists */}
 							<div className="todoList">
 								{
-									props.todos.edges.map(edge=>(
+									props.todos.edges.map(edge => (
 										<TodoComponent
-											key = {edge.node.id}
-											todo = {edge.node}
+											key={edge.node.id}
+											todo={edge.node}
 										/>
 									))
 								}
 							</div>
+						
+						
 						</div>
 					);
 				}}
