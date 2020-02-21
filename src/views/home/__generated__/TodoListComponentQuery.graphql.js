@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 504d1c260a8fef49cf9ccaa5479cf06f
+ * @relayHash 041dca0e932cdb3eda201300f01dc8ac
  */
 
 /* eslint-disable */
@@ -34,12 +34,18 @@ export type TodoListComponentQuery = {|
 query TodoListComponentQuery(
   $searchText: String
 ) {
-  todos(searchByTitle: $searchText) {
+  todos(first: 100, searchByTitle: $searchText) {
     edges {
       node {
         id
         ...TodoComponent_todo
+        __typename
       }
+      cursor
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
     }
   }
 }
@@ -60,20 +66,64 @@ var v0 = [
     "defaultValue": null
   }
 ],
-v1 = [
-  {
-    "kind": "Variable",
-    "name": "searchByTitle",
-    "variableName": "searchText"
-  }
-],
-v2 = {
+v1 = {
   "kind": "ScalarField",
   "alias": null,
   "name": "id",
   "args": null,
   "storageKey": null
-};
+},
+v2 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "__typename",
+  "args": null,
+  "storageKey": null
+},
+v3 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "cursor",
+  "args": null,
+  "storageKey": null
+},
+v4 = {
+  "kind": "LinkedField",
+  "alias": null,
+  "name": "pageInfo",
+  "storageKey": null,
+  "args": null,
+  "concreteType": "PageInfo",
+  "plural": false,
+  "selections": [
+    {
+      "kind": "ScalarField",
+      "alias": null,
+      "name": "endCursor",
+      "args": null,
+      "storageKey": null
+    },
+    {
+      "kind": "ScalarField",
+      "alias": null,
+      "name": "hasNextPage",
+      "args": null,
+      "storageKey": null
+    }
+  ]
+},
+v5 = [
+  {
+    "kind": "Literal",
+    "name": "first",
+    "value": 100
+  },
+  {
+    "kind": "Variable",
+    "name": "searchByTitle",
+    "variableName": "searchText"
+  }
+];
 return {
   "kind": "Request",
   "fragment": {
@@ -85,10 +135,10 @@ return {
     "selections": [
       {
         "kind": "LinkedField",
-        "alias": null,
-        "name": "todos",
+        "alias": "todos",
+        "name": "__Todo_todos_connection",
         "storageKey": null,
-        "args": (v1/*: any*/),
+        "args": null,
         "concreteType": "todosConnection",
         "plural": false,
         "selections": [
@@ -110,6 +160,7 @@ return {
                 "concreteType": "Todo",
                 "plural": false,
                 "selections": [
+                  (v1/*: any*/),
                   (v2/*: any*/),
                   {
                     "kind": "FragmentSpread",
@@ -117,9 +168,11 @@ return {
                     "args": null
                   }
                 ]
-              }
+              },
+              (v3/*: any*/)
             ]
-          }
+          },
+          (v4/*: any*/)
         ]
       }
     ]
@@ -134,7 +187,7 @@ return {
         "alias": null,
         "name": "todos",
         "storageKey": null,
-        "args": (v1/*: any*/),
+        "args": (v5/*: any*/),
         "concreteType": "todosConnection",
         "plural": false,
         "selections": [
@@ -156,7 +209,7 @@ return {
                 "concreteType": "Todo",
                 "plural": false,
                 "selections": [
-                  (v2/*: any*/),
+                  (v1/*: any*/),
                   {
                     "kind": "ScalarField",
                     "alias": null,
@@ -170,12 +223,24 @@ return {
                     "name": "done",
                     "args": null,
                     "storageKey": null
-                  }
+                  },
+                  (v2/*: any*/)
                 ]
-              }
+              },
+              (v3/*: any*/)
             ]
-          }
+          },
+          (v4/*: any*/)
         ]
+      },
+      {
+        "kind": "LinkedHandle",
+        "alias": null,
+        "name": "todos",
+        "args": (v5/*: any*/),
+        "handle": "connection",
+        "key": "Todo_todos",
+        "filters": []
       }
     ]
   },
@@ -183,12 +248,23 @@ return {
     "operationKind": "query",
     "name": "TodoListComponentQuery",
     "id": null,
-    "text": "query TodoListComponentQuery(\n  $searchText: String\n) {\n  todos(searchByTitle: $searchText) {\n    edges {\n      node {\n        id\n        ...TodoComponent_todo\n      }\n    }\n  }\n}\n\nfragment TodoComponent_todo on Todo {\n  id\n  title\n  done\n}\n",
-    "metadata": {}
+    "text": "query TodoListComponentQuery(\n  $searchText: String\n) {\n  todos(first: 100, searchByTitle: $searchText) {\n    edges {\n      node {\n        id\n        ...TodoComponent_todo\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment TodoComponent_todo on Todo {\n  id\n  title\n  done\n}\n",
+    "metadata": {
+      "connection": [
+        {
+          "count": null,
+          "cursor": null,
+          "direction": "forward",
+          "path": [
+            "todos"
+          ]
+        }
+      ]
+    }
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '1a357e583f68ef9ab952c4244422254c';
+(node/*: any*/).hash = '7b4a6080ee90754d5fce06441d3158a2';
 
 module.exports = node;

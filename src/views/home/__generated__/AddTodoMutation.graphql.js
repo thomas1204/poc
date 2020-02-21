@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash c2ad51dd7a9856582298999f823573e5
+ * @relayHash b7f0da4937edc9a5abea5585bc8e7131
  */
 
 /* eslint-disable */
@@ -24,7 +24,8 @@ export type AddTodoMutationResponse = {|
         +id: string,
         +title: ?string,
         +done: ?boolean,
-      |}
+      |},
+      +cursor: string,
     |}
   |}
 |};
@@ -46,6 +47,7 @@ mutation AddTodoMutation(
         title
         done
       }
+      cursor
     }
   }
 }
@@ -116,6 +118,13 @@ v1 = [
                 "storageKey": null
               }
             ]
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "name": "cursor",
+            "args": null,
+            "storageKey": null
           }
         ]
       }
@@ -142,12 +151,12 @@ return {
     "operationKind": "mutation",
     "name": "AddTodoMutation",
     "id": null,
-    "text": "mutation AddTodoMutation(\n  $input: AddTodoInput!\n) {\n  addTodo(input: $input) {\n    todo {\n      node {\n        id\n        title\n        done\n      }\n    }\n  }\n}\n",
+    "text": "mutation AddTodoMutation(\n  $input: AddTodoInput!\n) {\n  addTodo(input: $input) {\n    todo {\n      node {\n        id\n        title\n        done\n      }\n      cursor\n    }\n  }\n}\n",
     "metadata": {}
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '608fbc353d18a03c1b002734786af701';
+(node/*: any*/).hash = 'd3f30050d5a629fb44bf9dd7d5fb982c';
 
 module.exports = node;

@@ -159,5 +159,5 @@
     "relay-compiler": "^9.0.0",
     "relay-config": "^9.0.0"
   },
-  "proxy": "http://localhost:7000"
+  "proxy" : "http://localhost:7000"
 }

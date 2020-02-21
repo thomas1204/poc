@@ -2,7 +2,6 @@ import React, {Component, Fragment} from 'react';
 import 'bootstrap';
 import $ from 'jquery';
 import AddTodoMutation from "./AddTodoMutation";
-import RelayEnvironment from "../../relay.environment";
 
 class AddTodoComponent extends Component {
 	
@@ -16,7 +15,7 @@ class AddTodoComponent extends Component {
 			title: todoValue,
 			done: false
 		};
-		AddTodoMutation.commit(RelayEnvironment,todo);
+		AddTodoMutation.commit(todo);
 		$('#addTodoModal').modal('hide')
 	};
 	

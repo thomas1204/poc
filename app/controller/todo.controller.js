@@ -128,7 +128,6 @@ const ChangeTodoDoneStatus = mutationWithClientMutationId({
 		}
 	},
 	mutateAndGetPayload: (todo) => {
-		console.log('todo', todo);
 		return new Promise((resolve, reject) => {
 			const _id = fromGlobalId(todo.id).id;
 			DB.UPDATE(COLLECTIONS.TODOS, {_id: ObjectID(_id)}, {$set: {done: todo.done}}, (err, doc) => {

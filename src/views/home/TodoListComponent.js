@@ -25,7 +25,7 @@ class TodoList extends Component {
 				environment={RelayEnvironment}
 				query={graphql`
           query TodoListComponentQuery($searchText: String) {
-            todos (searchByTitle: $searchText) {
+            todos (first: 100, searchByTitle: $searchText) @connection(key: "Todo_todos", filters: []) {
 					    edges{
 					      node{
 					        id
@@ -37,6 +37,7 @@ class TodoList extends Component {
         `}
 				variables={{searchText}}
 				render={({error, props}) => {
+					console.log('props', props);
 					if (error) {
 						return <div>Error!</div>;
 					}
